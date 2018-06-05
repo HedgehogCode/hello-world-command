@@ -8,6 +8,7 @@
 
 package de.csbd.learnathon.command;
 
+import org.scijava.Context;
 import org.scijava.ItemIO;
 import org.scijava.command.Command;
 import org.scijava.plugin.Parameter;
@@ -24,11 +25,15 @@ import net.imagej.ImageJ;
 @Plugin(type = Command.class, menuPath = "Plugins>Hello World")
 public class HelloWorldCommand implements Command {
 
+	@Parameter
+	private Context context;
+
 	@Parameter(type = ItemIO.OUTPUT)
 	private String out;
 
 	@Override
 	public void run() {
+		System.out.println(context);
 		out = "Hello World";
 	}
 
@@ -43,6 +48,6 @@ public class HelloWorldCommand implements Command {
 	public static void main(final String... args) throws Exception {
 		// create the ImageJ application context with all available services
 		final ImageJ ij = new ImageJ();
-		ij.ui().showUI();
+		ij.command().run(HelloWorldCommand.class, true);
 	}
 }
